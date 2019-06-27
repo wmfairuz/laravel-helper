@@ -26,6 +26,8 @@ while getopts "d:uirt:l" OPTION; do
     esac
 done
 
+OPTIND=1
+
 if [[ -z "${DEPLOY_DIR}" ]]; then
     read -p "Use current folder $PWD? [y/n] " YN
 
