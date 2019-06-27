@@ -1,42 +1,57 @@
 #! /bin/bash
 
-export APPDIR=/opt/my-laravel
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-pushd $APPDIR
-
-while getopts "dirlt:" OPTION; do
+while getopts "d:uirt:l" OPTION; do
     case $OPTION in
-    d)
-        echo -e "\n${YELLOW}Updating code in $APPDIR${NC}\n"
+        d )
+            DEPLOY_DIR="$OPTARG"
+            ;;
+    esac
+done
+
+if [[ -z "${DEPLOY_DIR}" ]]; then
+    read -p "Use current folder $PWD? [y/n] " YN
+
+    if [[ $YN == "y" || $YN == "Y" ]]; then
+        DEPLOY_DIR="$PWD"
+    else
+        echo -e "\nExiting..."
+        exit 1
+    fi
+else
+    DEPLOY_DIR="${DEPLOY_DIR}"
+fi
+
+pushd $DEPLOY_DIR
+
+while getopts "d:uirt:l" OPTION; do
+    case $OPTION in
+    u )
+        echo -e "\n${YELLOW}Updating code in $DEPLOY_DIR${NC}\n"
         git pull
         ;;
-    i)
+    i )
         echo -e "\n${YELLOW}Installing dependencies${NC}\n"
         composer install
         ;;
-    r)
-        cho -e "${YELLOW}Refresh laravel instance${NC}\n"
+    r )
+        echo -e "${YELLOW}Refresh laravel instance${NC}\n"
         composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan config:cache && php artisan queue:restart
         echo -e "${YELLOW}Reset folder permissions${NC}\n"
-        chown -R www-data:www-data $APPDIR && chmod -R 755 $APPDIR/storage && chmod -R 755 $APPDIR/bootstrap/cache
+        chown -R www-data:www-data . && chmod -R 755 storage && chmod -R 755 bootstrap/cache
         ;;
-    l)
-        echo -e "\n${YELLOW}Laravel log${NC}\n"
-        tail -f storage/logs/laravel-$(date +%Y-%m-%d).log
-        ;;
-    t)
+    t )
         echo -e "\n${YELLOW}Laravel log${NC}\n"
         tail -n $OPTARG storage/logs/laravel-$(date +%Y-%m-%d).log
         ;;
-    *)
-        echo -e "${RED}Incorrect options provided${NC}"
-        exit 1
+    l )
+        echo -e "\n${YELLOW}Laravel log${NC}\n"
+        tail -f storage/logs/laravel-$(date +%Y-%m-%d).log
         ;;
     esac
 done
