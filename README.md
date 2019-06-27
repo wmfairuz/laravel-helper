@@ -12,19 +12,31 @@ $ cd laravel-helper
 $ ln -s laravel-helper /usr/bin/laravel-helper
 ```
 
+Set DEPLOY_DIR in your shell (eg. .bashrc) or directly define when invoking the script.
+
 ## Usage
 
 ```
-$ laravel-helper -dir
+$ laravel-helper -d /opt/my-laravel -uir
 ```
+
+or
+
+```
+$ export DEPLOY_DIR=/opt/my-laravel
+$ laravel-helper -uir
+```
+
+or you can use current directory by omitting both -d argument and DEPLOY_DIR env variable
 
 ## Arguments
 
-- d - Update code using git pull
-- i - Update dependencies using composer
+- d - Target directory
+- u - Update code using git pull
+- i - Install dependencies using composer
 - r - Refresh laravel instance and fix folder permission / ownership
-- l - Output Laravel log file and append output as log file grow
 - t - Output Laravel log file with specified line number  (eg: -t 100 to output last 100 line)
+- l - Output Laravel log file and append output as log file grow
 
 ## License
 
