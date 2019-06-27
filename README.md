@@ -18,7 +18,7 @@ $ ln -s laravel-helper /usr/bin/laravel-helper
 $ laravel-helper -dir
 ```
 
-# Arguments
+## Arguments
 
 - d - Update code using git pull
 - i - Update dependencies using composer
