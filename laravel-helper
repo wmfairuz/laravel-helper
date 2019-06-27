@@ -6,19 +6,20 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-while getopts "hd:uirt:l" OPTION; do
-    case $OPTION in
-        h )
-            echo -e "\n${YELLOW}Help${NC}\n"
+if [[ $# == 0 ]]; then
+    echo -e "\n${YELLOW}Help${NC}\n"
 
-            echo -e "${BLUE}d${NC} - Target directory"
-            echo -e "${BLUE}u${NC} - Update code using git pull"
-            echo -e "${BLUE}i${NC} - Install dependencies using composer"
-            echo -e "${BLUE}r${NC} - Refresh laravel instance and fix folder permission / ownership"
-            echo -e "${BLUE}t${NC} - Output Laravel log file with specified line number (eg: -t 100 to output last 100 line)"
-            echo -e "${BLUE}l${NC} - Output Laravel log file and append output as log file grow"
-            exit 0
-            ;;
+    echo -e "${BLUE}d${NC} - Target directory"
+    echo -e "${BLUE}u${NC} - Update code using git pull"
+    echo -e "${BLUE}i${NC} - Install dependencies using composer"
+    echo -e "${BLUE}r${NC} - Refresh laravel instance and fix folder permission / ownership"
+    echo -e "${BLUE}t${NC} - Output Laravel log file with specified line number (eg: -t 100 to output last 100 line)"
+    echo -e "${BLUE}l${NC} - Output Laravel log file and append output as log file grow"
+    exit 0
+fi
+
+while getopts "d:uirt:l" OPTION; do
+    case $OPTION in
         d )
             DEPLOY_DIR="$OPTARG"
             ;;
@@ -40,7 +41,7 @@ fi
 
 pushd $DEPLOY_DIR
 
-while getopts "hd:uirt:l" OPTION; do
+while getopts "d:uirt:l" OPTION; do
     case $OPTION in
     u )
         echo -e "\n${YELLOW}Updating code in $DEPLOY_DIR${NC}\n"
