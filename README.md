@@ -1,6 +1,6 @@
 ## laravel-helper
 
-Helper for common Laravel related tasks on server
+Bash script helper for common Laravel related tasks on server
 
 ## Installation
 
@@ -31,8 +31,8 @@ or you can use current directory by omitting both -d argument and DEPLOY_DIR env
 
 ## Arguments
 
-- d - Target directory
-- u - Update code using git pull
+- d - Target directory (eg: -d /opt/my-laravel)
+- u - Update code using git pull (defaults to master branch)
 - i - Install dependencies using composer
 - r - Refresh laravel instance and fix folder permission / ownership
 - t - Output Laravel log file with specified line number  (eg: -t 100 to output last 100 line)
