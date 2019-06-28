@@ -20,7 +20,7 @@ Set DEPLOY_DIR in your shell (eg. .bashrc) or directly define when invoking the 
 $ laravel-helper -d /opt/my-laravel -uir
 ```
 
-or
+or with a server that only has one laravel instance, we can put the target directory in DEPLOY_DIR
 
 ```
 $ export DEPLOY_DIR=/opt/my-laravel
