@@ -57,7 +57,7 @@ refresh() {
     chown -R www-data:www-data . && chmod -R 755 storage && chmod -R 755 bootstrap/cache
 }
 
-tail() {
+tail_line() {
     echo -e "$(e "Laravel log\n" "YELLOW")" 
     log="storage/logs/laravel-$(date +%Y-%m-%d).log"
     ls -l $log && tail -n $1 $log
@@ -92,7 +92,7 @@ while getopts "hd:uirt:l" OPTION; do
     u ) update ;;
     i ) install ;;
     r ) refresh ;;
-    t ) tail $OPTARG ;;
+    t ) tail_line $OPTARG ;;
     l ) tail_follow ;;
     esac
 done
