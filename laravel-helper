@@ -59,12 +59,14 @@ refresh() {
 
 tail() {
     echo -e "$(e "Laravel log\n" "YELLOW")" 
-    tail -n $OPTARG storage/logs/laravel-$(date +%Y-%m-%d).log
+    log="storage/logs/laravel-$(date +%Y-%m-%d).log"
+    ls -l $log && tail -n $1 $log
 }
 
 tail_follow() {
     echo -e "$(e "Laravel log\n" "YELLOW")" 
-    tail -f storage/logs/laravel-$(date +%Y-%m-%d).log
+    log="storage/logs/laravel-$(date +%Y-%m-%d).log"
+    ls -l $log && tail -f $log
 }
 
 
@@ -90,7 +92,7 @@ while getopts "hd:uirt:l" OPTION; do
     u ) update ;;
     i ) install ;;
     r ) refresh ;;
-    t ) tail ;;
+    t ) tail $OPTARG ;;
     l ) tail_follow ;;
     esac
 done
