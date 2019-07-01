@@ -14,6 +14,14 @@ $ ln -s laravel-helper /usr/bin/laravel-helper
 
 Set DEPLOY_DIR in your shell (eg. .bashrc) or directly define when invoking the script.
 
+## Update laravel-helper
+
+```
+$ cd laravel-helper
+$ git pull
+```
+
+
 ## Usage
 
 ```
