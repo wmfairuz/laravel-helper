@@ -59,7 +59,7 @@ refresh() {
 }
 
 cache_config() {
-    php artisan cache:config
+    php artisan config:cache
 }
 
 tail_line() {
