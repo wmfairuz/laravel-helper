@@ -18,6 +18,7 @@ help() {
     echo -e "$(e "d - Target directory (eg: -d /opt/my-laravel)" "YELLOW")"
     echo -e "$(e "u - Update code using git pull (defaults to master branch)" "YELLOW")"
     echo -e "$(e "i - Install dependencies using composer" "YELLOW")"
+    echo -e "$(e "c - Cache config files" "YELLOW")"
     echo -e "$(e "r - Refresh laravel instance and fix folder permission / ownership" "YELLOW")"
     echo -e "$(e "t - Output Laravel log file with specified line number (eg: -t 100 to output last 100 line)" "YELLOW")"
     echo -e "$(e "l - Output Laravel log file and append output as log file grow" "YELLOW")"
@@ -52,9 +53,13 @@ install() {
 
 refresh() {
     echo -e "$(e "Refresh laravel instance\n" "YELLOW")" 
-    composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan config:cache && php artisan queue:restart
+    composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan queue:restart
     echo -e "$(e "Reset folder permissions\n" "YELLOW")" 
     chown -R www-data:www-data . && chmod -R 755 storage && chmod -R 755 bootstrap/cache
+}
+
+cache_config() {
+    php artisan cache:config
 }
 
 tail_line() {
@@ -74,7 +79,7 @@ if [[ $# == 0 ]]; then
     help
 fi
 
-while getopts "hd:uirt:l" OPTION; do
+while getopts "hd:uicrt:l" OPTION; do
     case $OPTION in
         h ) help ;;
         d ) DEPLOY_DIR="$OPTARG" ;;
@@ -87,10 +92,11 @@ check_deploy_dir
 
 pushd $DEPLOY_DIR
 
-while getopts "hd:uirt:l" OPTION; do
+while getopts "hd:uicrt:l" OPTION; do
     case $OPTION in
     u ) update ;;
     i ) install ;;
+    c ) cache_config ;;
     r ) refresh ;;
     t ) tail_line $OPTARG ;;
     l ) tail_follow ;;
