@@ -68,14 +68,24 @@ cache_config() {
 
 tail_line() {
     echo -e "$(e "Laravel log\n" "YELLOW")" 
-    log="storage/logs/laravel-$(date +%Y-%m-%d).log"
-    ls -l $log && tail -n $1 $log
+    FILE="storage/logs/laravel-$(date +%Y-%m-%d).log"
+    FILE2="storage/logs/laravel.log"
+    if [ -f "$FILE" ]; then
+        tail -n "$1" "$FILE"
+    elif [ -f "$FILE2" ]; then
+        tail -n "$1" $FILE2
+    fi
 }
 
 tail_follow() {
     echo -e "$(e "Laravel log\n" "YELLOW")" 
-    log="storage/logs/laravel-$(date +%Y-%m-%d).log"
-    ls -l $log && tail -f $log
+    FILE="storage/logs/laravel-$(date +%Y-%m-%d).log"
+    FILE2="storage/logs/laravel.log"
+    if [ -f "$FILE" ]; then
+        tail -f "$FILE"
+    elif [ -f "$FILE2" ]; then
+        tail -f $FILE2
+    fi
 }
 
 if [[ $# == 0 ]]; then
