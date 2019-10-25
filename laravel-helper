@@ -19,7 +19,8 @@ help() {
     echo -e "$(e "u - Update code using git pull (defaults to master branch)" "YELLOW")"
     echo -e "$(e "i - Install dependencies using composer" "YELLOW")"
     echo -e "$(e "c - Cache config files" "YELLOW")"
-    echo -e "$(e "r - Refresh laravel instance and fix folder permission / ownership" "YELLOW")"
+    echo -e "$(e "r - Fix folder permission / ownership" "YELLOW")"
+    echo -e "$(e "f - Refresh laravel instance" "YELLOW")"
     echo -e "$(e "t - Output Laravel log file with specified line number (eg: -t 100 to output last 100 line)" "YELLOW")"
     echo -e "$(e "l - Output Laravel log file and append output as log file grow" "YELLOW")"
 
@@ -51,11 +52,14 @@ install() {
     composer install
 }
 
-refresh() {
-    echo -e "$(e "Refresh laravel instance\n" "YELLOW")" 
-    composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan queue:restart
+reset() {
     echo -e "$(e "Reset folder permissions\n" "YELLOW")" 
-    chown -R www-data:www-data . && chmod -R 755 storage && chmod -R 755 bootstrap/cache
+    sudo chgrp -R www-data . && sudo chmod -R 775 storage && sudo chmod -R 775 bootstrap/cache
+}
+
+refresh() {
+    echo -e "$(e "Refresh laravel instance\n" "YELLOW")"
+    composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan queue:restart
 }
 
 cache_config() {
@@ -74,12 +78,11 @@ tail_follow() {
     ls -l $log && tail -f $log
 }
 
-
 if [[ $# == 0 ]]; then
     help
 fi
 
-while getopts "hd:uicrt:l" OPTION; do
+while getopts "hd:uicrft:l" OPTION; do
     case $OPTION in
         h ) help ;;
         d ) DEPLOY_DIR="$OPTARG" ;;
@@ -92,12 +95,13 @@ check_deploy_dir
 
 pushd $DEPLOY_DIR
 
-while getopts "hd:uicrt:l" OPTION; do
+while getopts "hd:uicrft:l" OPTION; do
     case $OPTION in
     u ) update ;;
     i ) install ;;
     c ) cache_config ;;
-    r ) refresh ;;
+    r ) reset ;;
+    f ) refresh ;;
     t ) tail_line $OPTARG ;;
     l ) tail_follow ;;
     esac
