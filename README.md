@@ -9,7 +9,7 @@ Clone this repository and make symlink:
 ```
 $ git clone https://github.com/wmfairuz/laravel-helper.git
 $ cd laravel-helper
-$ ln -s laravel-helper /usr/bin/laravel-helper
+$ ln -s ${PWD}/laravel-helper /usr/bin/laravel-helper
 ```
 
 Set DEPLOY_DIR in your shell (eg. .bashrc) or directly define when invoking the script.
