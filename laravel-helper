@@ -44,6 +44,7 @@ check_deploy_dir() {
 
 update() {
     echo -e "$(e "Updating code in $DEPLOY_DIR\n" "YELLOW")" 
+    git checkout -- .
     git pull
 }
 
