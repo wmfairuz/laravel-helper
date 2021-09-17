@@ -51,6 +51,7 @@ update() {
 install() {
     echo -e "$(e "Installing dependencies\n" "YELLOW")" 
     composer install
+    php artisan migrate
 }
 
 reset() {
