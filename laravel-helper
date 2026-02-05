@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e 
 
 e() {
     RED='\033[0;31m'
@@ -86,6 +87,11 @@ refresh() {
 
 cache_config() {
     php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+    php artisan event:cache
+    php artisan filament:optimize
+    php artisan horizon:terminate
 }
 
 tail_line() {
