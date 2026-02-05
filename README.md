@@ -35,7 +35,16 @@ $ export DEPLOY_DIR=/opt/my-laravel
 $ laravel-helper -uir
 ```
 
-or you can use current directory by omitting both -d argument and DEPLOY_DIR env variable
+or you can use current directory by omitting both -d argument and DEPLOY_DIR env variable.
+
+You can set a specific php cli version that will be used throughout the script. The php version will be reverted to the 
+original version at the end of the script run.
+
+```
+$ laravel-helper -p 8.4 -d /opt/my-laravel -uir
+```
+
+By default will use current cli php version.
 
 ## Arguments
 
@@ -45,6 +54,7 @@ or you can use current directory by omitting both -d argument and DEPLOY_DIR env
 - r - Refresh laravel instance and fix folder permission / ownership
 - t - Output Laravel log file with specified line number  (eg: -t 100 to output last 100 line)
 - l - Output Laravel log file and append output as log file grow
+- p - Set php cli version. php version will be reverted to original before exiting (eg: -p 8.4)
 
 ## License
 
