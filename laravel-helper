@@ -90,8 +90,8 @@ cache_config() {
     php artisan route:cache
     php artisan view:cache
     php artisan event:cache
-    php artisan filament:optimize
-    php artisan horizon:terminate
+    php artisan filament:optimize || true
+    php artisan horizon:terminate || true
 }
 
 tail_line() {
