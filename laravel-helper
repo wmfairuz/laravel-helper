@@ -121,18 +121,19 @@ if [[ $# == 0 ]]; then
 fi
 
 PHP_CHANGED=false
+ACTIONS=()
 while getopts "hd:uicrft:lp:" OPTION; do
     case $OPTION in
         h ) help ;;
         d ) DEPLOY_DIR="$OPTARG" ;;
         p ) PHP_VERSION="$OPTARG" ;;
-        u ) UPDATE=true ;;
-        i ) INSTALL=true ;;
-        c ) CACHE_CONFIG=true ;;
-        r ) RESET=true ;;
-        f ) REFRESH=true ;;
-        t ) TAIL_LINES="$OPTARG" ;;
-        l ) TAIL_FOLLOW=true ;;
+        u ) ACTIONS+=("update") ;;
+        i ) ACTIONS+=("install") ;;
+        c ) ACTIONS+=("cache_config") ;;
+        r ) ACTIONS+=("reset") ;;
+        f ) ACTIONS+=("refresh") ;;
+        t ) TAIL_LINES="$OPTARG"; ACTIONS+=("tail_line $OPTARG") ;;
+        l ) ACTIONS+=("tail_follow") ;;
     esac
 done
 
@@ -141,14 +142,10 @@ pushd $DEPLOY_DIR
 
 switch_php_version
 
-# Execute tasks based on options
-[[ $UPDATE == true ]] && update
-[[ $INSTALL == true ]] && install
-[[ $CACHE_CONFIG == true ]] && cache_config
-[[ $RESET == true ]] && reset
-[[ $REFRESH == true ]] && refresh
-[[ -n "$TAIL_LINES" ]] && tail_line $TAIL_LINES
-[[ $TAIL_FOLLOW == true ]] && tail_follow
+# Execute tasks in the order flags were provided
+for ACTION in "${ACTIONS[@]}"; do
+    $ACTION
+done
 
 popd
 revert_php_version
