@@ -83,6 +83,13 @@ reset() {
 refresh() {
     echo -e "$(e "Refresh laravel instance\n" "YELLOW")"
     composer dump-autoload && php artisan cache:clear && php artisan config:clear && php artisan view:clear && php artisan queue:restart
+
+    PHP_VER=$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
+    FPM_SERVICE="php${PHP_VER}-fpm"
+    if systemctl is-active --quiet "$FPM_SERVICE"; then
+        echo -e "$(e "Restarting $FPM_SERVICE\n" "YELLOW")"
+        sudo systemctl restart "$FPM_SERVICE"
+    fi
 }
 
 cache_config() {
