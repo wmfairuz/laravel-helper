@@ -77,7 +77,7 @@ install() {
 
 reset() {
     echo -e "$(e "Reset folder permissions\n" "YELLOW")"
-    sudo chgrp -R www-data . && sudo chmod -R 775 storage && sudo chmod -R 775 bootstrap/cache
+    sudo chgrp -R www-data storage/framework storage/logs bootstrap/cache && sudo chmod -R 775 storage/framework storage/logs bootstrap/cache
 }
 
 refresh() {
