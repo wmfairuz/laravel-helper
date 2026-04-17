@@ -67,7 +67,7 @@ update() {
     echo -e "$(e "Updating code in $DEPLOY_DIR\n" "YELLOW")"
     git checkout -- .
     git pull
-    sudo find . -not -path "*/storage/*" -not -path "*/.git/*" -exec chown www-data:www-data {} \;
+    sudo chown -R www-data:www-data app bootstrap config database lang public resources routes tests vendor artisan
 }
 
 install() {
