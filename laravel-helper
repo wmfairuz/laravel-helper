@@ -67,7 +67,7 @@ update() {
     echo -e "$(e "Updating code in $DEPLOY_DIR\n" "YELLOW")"
     git checkout -- .
     git pull
-    sudo chown -R www-data:www-data app bootstrap config database lang public resources routes tests vendor artisan
+    sudo chown -R www-data:www-data app bootstrap config database public resources routes tests vendor artisan
 }
 
 install() {
@@ -79,6 +79,7 @@ install() {
 reset() {
     echo -e "$(e "Reset folder permissions\n" "YELLOW")"
     sudo chgrp -R www-data storage/framework storage/logs bootstrap/cache && sudo chmod -R 775 storage/framework storage/logs bootstrap/cache
+    sudo chown -R www-data:www-data app bootstrap config database public resources routes tests vendor artisan
 }
 
 refresh() {
